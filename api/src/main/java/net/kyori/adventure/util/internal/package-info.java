@@ -21,32 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.adventure.translation;
-
-import java.util.Locale;
-import java.util.function.Supplier;
-import net.kyori.adventure.util.internal.AdventureProperties;
-import org.jetbrains.annotations.Nullable;
-
-final class TranslationLocales {
-  private static final Supplier<Locale> GLOBAL;
-
-  static {
-    final @Nullable String property = AdventureProperties.DEFAULT_TRANSLATION_LOCALE.value();
-    if (property == null || property.isEmpty()) {
-      GLOBAL = () -> Locale.US;
-    } else if (property.equals("system")) {
-      GLOBAL = Locale::getDefault;
-    } else {
-      final Locale locale = Translator.parseLocale(property);
-      GLOBAL = () -> locale;
-    }
-  }
-
-  private TranslationLocales() {
-  }
-
-  static Locale global() {
-    return GLOBAL.get();
-  }
-}
+/**
+ * Internal utilities.
+ */
+@org.jetbrains.annotations.ApiStatus.Internal
+package net.kyori.adventure.util.internal;

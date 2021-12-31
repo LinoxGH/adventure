@@ -28,6 +28,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.parser.node.ElementNode;
 import net.kyori.adventure.text.minimessage.placeholder.PlaceholderResolver;
 import net.kyori.adventure.text.minimessage.transformation.TransformationRegistry;
 import org.jetbrains.annotations.NotNull;
@@ -68,6 +69,11 @@ final class MiniMessageImpl implements MiniMessage {
   @Override
   public @NotNull Component deserialize(final @NotNull String input, final @NotNull PlaceholderResolver placeholderResolver) {
     return this.parser.parseFormat(input, this.newContext(input, requireNonNull(placeholderResolver, "placeholderResolver")));
+  }
+
+  @Override
+  public @NotNull ElementNode deserializeToTree(final @NotNull String input, final @NotNull PlaceholderResolver placeholderResolver) {
+    return this.parser.parseToTree(input, this.newContext(input, requireNonNull(placeholderResolver, "placeholderResolver")));
   }
 
   @Override

@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.parser.node.ElementNode;
 import net.kyori.adventure.text.minimessage.placeholder.PlaceholderResolver;
 import net.kyori.adventure.text.minimessage.transformation.TransformationRegistry;
 import net.kyori.adventure.text.serializer.ComponentSerializer;
@@ -126,6 +127,18 @@ public interface MiniMessage extends ComponentSerializer<Component, Component, S
    * @since 4.10.0
    */
   @NotNull Component deserialize(final @NotNull String input, final @NotNull PlaceholderResolver placeholderResolver);
+
+  /**
+   * Deserializes a string into a tree of parsed elements, with a placeholder resolver to parse placeholders of the form {@code <key>}.
+   *
+   * <p>Placeholders will be resolved from this resolver before the resolver provided in the builder is used.</p>
+   *
+   * @param input the input string
+   * @param placeholderResolver the placeholder resolver
+   * @return the root of the resulting tree
+   * @since 4.10.0
+   */
+  @NotNull ElementNode deserializeToTree(final @NotNull String input, final @NotNull PlaceholderResolver placeholderResolver);
 
   /**
    * Creates a new {@link MiniMessage.Builder}.

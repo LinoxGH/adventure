@@ -31,6 +31,7 @@ import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.minimessage.parser.node.ElementNode;
 import net.kyori.adventure.text.minimessage.placeholder.Placeholder;
 import net.kyori.adventure.text.minimessage.placeholder.PlaceholderResolver;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -1683,5 +1684,29 @@ public class MiniMessageParserTest extends TestBase {
       .build();
 
     this.assertParsedEquals(expected, input);
+  }
+
+  @Test
+  void testTreeOutput() {
+    final String input = "<red> RED <blue> <name> <click:open_url:https://github.com> good <action> </click>";
+
+    final PlaceholderResolver resolver = PlaceholderResolver.placeholders(Placeholder.miniMessage("name", "you"), Placeholder.component("action", Component.text("click")));
+    final ElementNode tree = MiniMessage.miniMessage().deserializeToTree(input, resolver);
+    final String expected = "Node {\n" +
+      "  TagNode('red') {\n" +
+      "    TextNode(' RED ')\n" +
+      "    TagNode('blue') {\n" +
+      "      TextNode(' you ')\n" +
+      "      TagNode('click', 'open_url', 'https://github.com') {\n" +
+      "        TextNode(' good ')\n" +
+      "        TagNode('action') {\n" +
+      "        }\n" +
+      "        TextNode(' ')\n" +
+      "      }\n" +
+      "    }\n" +
+      "  }\n" +
+      "}\n";
+
+    assertEquals(expected, tree.toString());
   }
 }
